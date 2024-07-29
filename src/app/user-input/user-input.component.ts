@@ -1,6 +1,7 @@
-import { Component,output,signal } from '@angular/core';
+import { Component,inject,signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { investmentInput } from '../investment-input.model';
+import { InvestmentInput } from '../investment-input.model';
+import { InvestmentService } from '../investment.service';
 
 @Component({
   selector: 'app-user-input',
@@ -10,14 +11,13 @@ import { investmentInput } from '../investment-input.model';
   styleUrl: './user-input.component.css'
 })
 export class UserInputComponent {
-  //to passing data from child component to parent-component we use eventEmitter means outputdecrator
-   calculate= output<investmentInput>();
   enteredInitialInvestment =signal("0");
   enteredAnnualInvestment = signal("0");
   enteredExpectedReturn =signal("5");
   enteredDuration =signal("10");
+  private investmentService = inject(InvestmentService);
    onSubmit() {
-    this.calculate.emit({
+    this.investmentService.calculateInvestmentResults({
       initialInvestment: +this.enteredInitialInvestment(), //+ used here to convert string type to number
       annualInvestment: +this.enteredAnnualInvestment(),
       duration: +this.enteredDuration(),

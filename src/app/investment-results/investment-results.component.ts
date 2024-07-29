@@ -1,5 +1,6 @@
 import { CurrencyPipe } from '@angular/common';
-import { Component,input } from '@angular/core';
+import { Component,inject,input } from '@angular/core';
+import { InvestmentService } from '../investment.service';
 
 @Component({
   selector: 'app-investment-results',
@@ -9,13 +10,8 @@ import { Component,input } from '@angular/core';
   styleUrl: './investment-results.component.css'
 })
 export class InvestmentResultsComponent {
-  results =input<{
-    year: number,
-    interest: number,
-    valueEndOfYear: number,
-    annualInvestment: number,
-    totalInterest: number,
-    totalAmountInvested: number,
-  }[]>()
-  //i have used [] square brackets for object type . its an typescript feature to convert to array
+ private investmentService = inject(InvestmentService);
+ get results() {
+  return this.investmentService.resultsData;
+ }
 }
